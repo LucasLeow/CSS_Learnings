@@ -1,0 +1,713 @@
+CSS Selectors Intro:
+	- Less is More in CSS
+	- Use less selectors & specificity to be ideal
+	- Don't want to create too many classes / go too specific with selectors
+	- Selectors are read from right to left
+		- element on the rightmost will be styled
+	- Stylesheet processed from top to bottom
+	- if 2 similar selectors, the latest will take precedence
+	- styles with higher specificity will take precedence, regardless of order
+	- !important keyword: overrides source order & specificity
+		p {
+		font-size: 12px!important;
+			}
+	
+	
+-- 1 Review of Basic CSS --
+
+-- 1-1 CSS Terminology --
+	- Selector
+	- Declaration block
+	- Declaration (Property:value pair)
+	
+-- 1-2 Type, Class, ID Selectors --
+	1) Type/Element Selectors
+		- selects HTML tags
+		- least specific
+		- should be used first to set default of webpage
+		- add more specific selector as required
+
+
+-- 1-4 Compound Selectors --
+
+	- p.myclass {red} : only <p class = "myclass"> will be styled
+	- ul.myclass {blue} : only <ul class = "myclass"> will be styled
+	- p#myid {green} : only <p id = "myid"> will be styled
+		- use to show different styling of id for different pages
+		
+		
+-- 2 Combinator Selectors --
+
+-- 2-1 HTML Family Tree --
+	- Grandparent / Ancestor
+	- Parent
+	- Child
+	- Siblings
+	- Descendent
+	
+	<body>
+		<section>
+			<h1></h1>
+			<p></p>
+			<p>
+				<a href = "#"></a>
+			</p>
+		</section>
+
+		<aside>
+			<h2></h2>
+			<ul>
+				<li>
+					<strong></strong>
+				</li>
+				<li></li>
+			</ul>
+		</aside>
+	</body>
+	
+	
+	body (ancestor)
+		- section (grandparent)
+			- h1
+			- p
+			- p (parent)
+				- a (child)
+		- aside
+			- h2
+			- ul
+				- li
+				- li
+					- strong
+					
+-- 2-2 Descendent selectors --
+	- so long as nested element, can choose any parent / grandparent as reference
+	- dependent on type of elements in page and desired end goal
+	- indicated with spaces between selectors
+	- read from right to left (rightmost element effected) (leftmost for increased specificity)
+	- p a { /* select link tags within p tags
+		color: blue;
+	}
+
+-- 2-3 Parent-child selectors -- 
+	- To retrieve direct child(s) of given parent
+	- Descendent selector selects all descendents
+	
+	eg.
+	
+	Direct Child:
+	article > p { /* Select only paragraphs that are direct children of article */
+		color: red;
+	}
+	
+	aside p > strong { /* select strong that are direct child of p, descended from aside */
+		color: blue;
+	}
+	
+-- 2-4 Adjacent, General sibling selectors --
+	- Adjacent Siblings: Directly next to each other
+	eg.
+		h1 + p { /* selects p adjacent to h1 */
+			color: green;
+		}
+		
+	- General Siblings: Are siblings but not necessarily adjacent
+		- Will only apply to siblings later in the document
+		- any siblings earlier will not be modified
+	eg.
+		h1 ~ p { /* selects any p that is general sibling of h1 */
+			color:blue;
+		}
+	
+-- 2-5 Reading & Writing Selectors
+	- Reading from right to left
+	- Writing from left to right
+	
+	Writing:
+		- Start from outer most element (ancestor)
+		- Slowly target more inwards
+		- Goal is to be less specific
+		- Typical solution is to just use class / id, but may result in clutter
+	
+	Reading:
+	
+		.warning > p a
+		
+		1) Select any a element
+		2) That is nested within any p element (descendent)
+		3) That is a direct child of any element with class = "warning"
+		
+		a:link vs a :link
+			a:link: link in unvisited state
+			a :link: unvisited link descended from <a> tag
+			
+-- 3 Attribute Selectors --
+
+-- 3-1 Simple Attribute Selectors --
+	- Can also use selectors to select attributes
+	- [attribute] detects the prescence or absence of attribute
+	- eg: <a href = "#top" title = "back to top">Back to top </a>
+		- href & title are the attributes here
+		- title attribute typically shows up as tooltip, depending on browser 
+		
+		[title] { /* title attribute selector */
+			color: red;
+		}
+		
+		a[title] { /* select <a title = "some title attribute">
+			...
+		}
+		
+-- 3-2 Exact & partial attribute selectors --
+
+	Exact attribute match:
+	
+	[title="first"] { /* exact match for title="first" attribute
+		color:blue;
+	}
+	
+	Partial attribute match: select so long as attribute contains the string
+	
+	[title~="first"] { /* so long as attribute title contains "first", will be selected */
+		color:red;
+	}
+	
+-- 3-3 Beginning, ending & substring selectors --
+
+	Beginning: (any attributes that start with "fi")
+	
+	[title^="fi"] {
+		color: red;
+	}
+	
+	Ending: (any attributes that end with "th")
+	
+	[title$="th"] {
+		color: green;
+	}
+	
+	Substring (more commonly used):
+		- so long as attribute contains the following characters, will select the element
+	
+	[title*="fi"] {
+		background-color: black;
+		color: white;
+	}
+	
+-- 3-4 Attribute selectors use cases --
+	- to add icons to links leading to other webpage
+	- to add indications for PDF file etc.
+	- attribute of href to identify type of links (.pdf etc)
+
+	a[href^="http"] {
+		background: url(icons/icon.png) no-repeat right;
+		padding-right: 14px; /* for 12 x 12 icon to shift icon rightwards */
+	}
+	
+	a[href="http":: after {
+		content: "(PDF)"
+	}
+	
+	
+-- 4 Pseudo Selectors for Document structures --
+
+-- 4-1 "only" selector
+	- only-child
+		- only single child within parent element
+
+		eg.
+		
+		(<strong> that is only child 
+		strong:only-child {
+			color: red;
+		}
+		
+	- only-of-type
+		- may have multiple siblings
+		- but only have itself as the type
+		- eg: 2 <div> and 1 <p> as siblings, <p> is the only of type
+		
+		p:only-of-type {
+			color: green;
+		}
+
+-- 4-2 first & last Pseudoselectors --
+	- :first-child
+		- select first child among group of siblings
+		eg.
+		
+		li:first-child {
+			color: red;
+		}
+	- :last-child
+		- select last child among group of siblings
+		
+		eg.
+		
+		li:last-child {
+			color: blue;
+		}
+		
+		
+	- :first-of-type (child)
+		- may have multiple siblings of same type, then select first of such type
+		
+		eg. (select first <p> amongst several <p> from same parent
+		p:first-of-type {
+			color: purple;
+		}
+		
+	- :last-of-type (child)
+	
+		eg. (select last <p> amongst several <P> from same parent
+		
+		p:last-of-type {
+			color: blue;
+		}
+		
+-- 4-3 nth selectors
+
+	- :nth-child (2nd child, 3rd child etc.)
+	
+		eg.
+		
+		li:nth-child( even/odd ) { /* select all even / odd childs */
+			background-color: orange;
+		}
+		
+		li:nth-child( 6 ) { /* 6th child to be selected */
+			background-color:orange
+		}
+		
+		li:nth-child(3n + 1) { /* start with 1st item, then every +3 next */
+			background-color: orange;
+		}
+		
+	- :nth-last-child
+		- same concept as nth-child but count from bottom instead of top
+		
+	- :nth-of-type (3rd of type, 5th of type etc.)
+
+	- :nth-last-of-type
+
+-- 4-4 :root & :empty Pseudoselectors --
+	- :root
+		- for setting up root of document
+			- adding some standard font size
+			- initializing custom css properties (--var-name)
+			- variables will be global
+		- for html & css world, root == <html> tag
+		- root pseudoselector has higher specificity than body / html type selector
+		- root pseudoselector allows access to shadow DOM
+	
+	eg.
+	
+	:root{
+		--standard-size: 1rem;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	
+	.container{
+		grid-gap: var(--standard-size);
+	}
+	
+	- :empty
+		- to select tags that have no content within tag
+		- no whitespace allowed
+		- good for use with Javascript, when writing content with empty tags between webpage
+		eg.
+		
+		<div></div> <!-- this is an empty content tag -->
+		
+		div:empty {
+			background-color: gold;
+		}
+
+-- 5 Pseudoselectors for Links --
+	- for styling links on webpage
+	- Pseudoselectors are also known as pseudoclass
+
+-- 5-1 Basic link states --
+	(must be specified in CSS in this order): (LVHA)
+	
+	- a:link { /* styling unvisited links */
+		color: blue;
+		text-decoration: none;
+	}
+	
+	- a:visited { /* styling links that have been visited */
+		color: red;
+		text-decoration: none;
+	}
+	
+	- a:hover { /* styles link when mouse hover over link */
+		color: purple;
+		text-decoration: none;
+	}
+	
+	- a:active { /* style after link clicked but before page load */
+		color: cyan;
+	}
+		- used in the past where loading web page requires some time
+		- not commonly used in modern browser
+		
+
+-- 5-2 Combining link states --
+	- recent addition
+	- selects any link, regardless of state
+	* put a:hover after a:any-link to make hover work correctly
+	- not commonly used compared to basic link pseudoselectors
+	
+	eg.
+	a:any-link {
+		color: red;
+		font-weight: bold;
+	}
+	
+	a:hover {
+		color: green;
+		text-decoration: none;
+	}
+	
+-- 5-3 In page navigation --
+	- using :target selector
+	- used when id are used as links to in page section
+	- :target will style the active location of the webpage where id is located
+	
+	eg:
+	
+	:target {
+		background-color: gold;
+	}
+	
+	in HTML:
+	<a href = "#part1"> Part 1 </a>
+	<a href = "#part2"> Part 2 </a>
+	
+	<p id = "#part1"> Part 1 content </p> <!-- this will be highlighted using :target when Part 1 link clicked -->
+	<p id = "#part2"> Part 2 content </p>
+	
+-- 5-4 focus selector --
+	- for accessibility within webpage (typically in links / forms)
+		- to show which element is currently actively selected
+		- :focus
+		- :focus-within
+		
+	eg.
+	
+	:focus { /* for all elements in webpage */
+		outline: 5px double purple;
+	}
+	
+	a:focus { /* only for current active links */
+		outline: 5px double purple;
+	}
+	
+	input:focus, textarea:focus { /* only for form element with textbox */
+		outline: 5px single blue;
+	}
+	
+	
+	focus-within:
+		- activates when active cursor within specified element
+	ul:focus-within {
+		background-color: yellow;
+	}
+	
+	form:focus-within {
+		background-color: orange;
+	}
+	
+-- 6 Pseudoselectors for forms --
+
+-- 6-1 Form Controls --
+	- :required
+	- :optional
+	- :enabled
+	- :disabled
+	
+	eg.
+	<input type = "text" id = "name" required>
+	
+	:required { /* select form fields that have specified attribute of required */
+		outline: 2px solid red;
+	}
+	
+	:optional {/* all other form fields without the required attribute keyword */
+		outline: 2px solid green;
+	}
+	
+	:enabled {/* selects form fields that does not have disabled attribute keyword */
+		outline: 2px solid blue;
+	}
+	
+	:disabled {/* selects form fields that have disabled attribute keyword */
+		outline: 2px solid red;
+	}
+	
+-- 6-2 Form Controls (read-only, read-write) --
+	- typically used with Javascript to make it more interactive (toggle states etc.)
+
+	- :read-only
+		- info on page that is read-only
+		- specified with keyword attribute in HTML tags
+			<textarea readonly rows = "5" cols = "33"> This can only be read, not written </textarea>
+			
+		eg.
+		
+		:read-only { /* Any content that is read-only, including body / div etc.*/
+			outline: 2px solid red;
+			background-color: yellow;
+		}
+		
+		// Need to be more specific to highlight desired read-only elements
+		
+		form div: read-only,
+		textarea: read-only,
+		input[type="radio"]: read-only {
+			outline: 2px solid red;
+			background-color: yellow;
+		}
+		
+			
+	- :read-write
+		- info on page that can be editable
+		- specified with keyword attribute in HTML tags
+			<p contenteditable> This is read-write tag </p>
+			- or enabled input from form
+			
+		eg.
+		:read-write { /* select fields in forms that are editable by user */
+			outline: 2px solid red;
+			background-color: yellow;
+		}
+
+-- 6-3 Form Controls (checkboxes related)
+
+	- :indeterminate
+		- no buttons checked in radio check boxes
+		- styles will apply to all indeterminate boxes
+		
+		eg.
+		
+		:indeterminate { /* styles all unchecked radio boxes */ 
+			outline: 2px solid deeppink;
+		}
+		
+	
+	- :default
+		- select all default state elements & apply styles
+		
+		:default {
+			outline: 5px dotted green;
+		}
+	
+	- :checked
+		- select elements that are checked
+		<label class = "radiorow"> 
+			<input type = "radio" name = "time" value = "morning" checked> Morning 
+		</label>
+	
+	eg. // Selects elements that are checked (if user check certain box, style will apply)
+		:checked {
+			outline: 2px solid red;
+		}
+		
+		[type="checkbox"]:checked { /* only select checkboxes that are checked to be styled */
+			outline: 10px double purple;
+		}
+		
+
+-- 6-4 Form Text Fields --
+	- :autofill
+		- for selecting input text tags with autocomplete attribute
+		- browser typically have styling for autofill elements already
+			- specificity overrides :autofill pseudo selector
+			
+			
+		<input type = "text" required autocomplete = "name" placeholder = "Lucas Leow">
+			- autocomplete has many values
+				- off (autocomplete does not come up) (security)
+				- on (turn on autocomplete)
+				- name
+				- honorific-prefix
+				- given-name
+				- additional-name
+				- family-name
+				- nickname
+				- email
+				- username
+				- new-password
+				- current-password
+				- one-time-code
+				- organization-title
+				- organization
+				- street-address
+				(many more https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+				
+		:autofill {
+			outline: 5px dotted hotpink;
+		}
+				
+	- :placeholder-shown
+		- for selecting input text tags with placeholder attribute
+		<input type = "text" required autocomplete = "number" placeholder = "98765432">
+		- once input filled with info, styling will be removed (since placeholder removed)
+		
+		:placeholder-shown {
+			outline: 2px solid red;
+			background-color: yellow;
+		}
+		
+-- 6-5 Forms error checking Pseudoselectors --
+	- no true error checking with just HTML & CSS
+	- Error checking must be from JS
+	- HTML & CSS can still be used to check for requirements in a limited way
+		- will indicate if requirements met, but cannot enforce
+		
+	- :valid
+	- :invalid
+	- :in-range
+		<input type = "number" id = "orders" placeholder = "enter number of orders" min="0" max = "10">
+			- 5.5 will be in-range but invalid
+	- :out-of-range
+	
+	:valid { /* style form element if valid */
+		outline: 2px solid green;
+	}
+	
+	:invalid { /* styles form element if invalid */
+		outline: 2px solid red;
+	}
+	
+	:in-range { /* styles number form element if within range */
+		outline: 2px solid brown;
+	}
+	
+	:out-of-range { /* styles number form element if out-of-range */
+		outline: 10px double navy;
+	}
+	
+	use input:valid | input:invalid | input:in-range | input:out-of-range 
+		- to just consider the input fields, not the entire form
+
+
+-- 7 Additional Pseudoselectors, Pseudoelements & universal selector --
+
+-- 7-1 is() and where() CSS selector methods
+	- widely supported by modern browsers
+	
+	:is() CSS pseudoclass selector method
+		- selects the elements passed in as argument
+		
+	eg.
+	
+	is(article, aside) :is(h1, h2, h3, .intro, h3:pseudoclass) {
+		border-bottom: 2px solid green;
+	}
+		- selects h1, h2, h3
+		- selects tags with class = "intro"
+		- selects h3 with :pseudoclass (non-existent)
+		with article tag as parent (i.e within <article>)
+		
+	Benefits:
+		- even if non-existent selector, style will still apply to existent tags
+		- can use multiple is() methods to group outer sections and nested sections
+		
+	Specificity:
+		- is(): Take the highest specificity within the ()
+	
+	where()
+		- works similar to is() but does not have any specificity
+		- to be used for the most general styling scenarios (defaults)
+	
+
+-- 7-2 :not() pseudoclass --
+
+	- select elements that does not meet certain criteria
+	- good for debugging / for identifying form fields
+		- identify tags without certain id / class / attributes
+	- eg. selecting <img> without alt attribute
+		<img src = "" alt = "image description>
+		<img src = ""> // want to select this
+		
+		
+		img:not([alt]) { /* for img without alt attribute, create a border */
+			border: 5px solid orange;
+		}
+		
+		p:not(.className) { /* paragraph without className */
+			color: red;
+		}
+
+-- 7-3 :has() pseudoclass --
+	- first CSS selector that focus on parent elements than children elements
+	- good for searching for pattern then styling those tags respectively
+	- good to use with media queries to make page dynamic
+	- recent implementation in 2022, not much widespread use
+	
+	eg.
+	if the unordered list has more than 6 items, break it into 2 columns
+	if 9 items, into 3 columns
+	
+	@media(min-width: 600px) { /* apply only if min-width >= 600px */
+		ul:has(li:nth-child(6)) {
+		columns: 2;
+		}
+	}
+	
+	@media(min-width: 900px){ /* apply only if min-width >= 900px */
+		ul:has(li:nth-child(9)) {
+		columns: 3;
+		}
+	}
+	
+-- 7-4 Pseudoelements --
+	- looks like pseudoclasses
+	- lower in specificity than pseudoclasses
+	- change a part of selected element, not the entire element
+		- eg first Letter very big
+	- CSS3, pseudoelements represented with ::
+	- many pseudoelements exist, 4 of the most common:
+	
+		- ::before
+		- ::after
+		- ::first-line
+		- ::first-letter
+		
+	eg:
+	
+		p:first-of-type::first-letter { /* modifies first letter */
+			font-size: 5rem;
+			float:left;
+			margin: -1rem 0.5rem 0 0;
+			font-family: "Faster One", cursive;
+			color: tomato;
+		}
+		
+		p:first-of-type::first-line { /* modifies first line */
+			font-size: 5rem;
+			margin: -1rem 0.5rem 0 0;
+			font-family: "Faster One", cursive;
+			color: tomato;
+		}
+		
+		[href$=".pdf"]::after { /* for any pdf links, add content after the word */
+			content: " (PDF) "
+		}
+		
+		[href$=".pdf"]::before { /* for any pdf links, add content before the word */
+			content: " (PDF) "
+		}
+		
+-- 8 Selectors Best Practices --
+
+	- Less is more
+	- classes everywhere clutters HTML
+	
+	1) start with general HTML element tags (global styling)
+		- fontfamily etc.
+	
+	2) use descedant selectors to fine-tune styling
+	3) Use pseudoclass and pseudoelements as needed
+	4) Avoid IDs in CSS Styling (but for JS / HTML navigation / form construction)
+	5) Keep selectors simple

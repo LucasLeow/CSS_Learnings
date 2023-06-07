@@ -1,0 +1,363 @@
+~~ 1 Getting Started ~~
+
+~~ 1-3 Referencing CSS ~~
+
+	- 3 methods
+	
+		1) External CSS file:
+			- saved with .css extension
+			1.1) <link>
+			1.2) @import
+				- causes potential slowing down of page speed
+				- does not allow parallel downloads
+				- commonly used with CSS preprocessors (SASS / LESS)
+				- or when CSS compiled into 1 file before loading into HTML page
+			
+			<head>
+				<link rel = "stylesheet" href = "css/styles.css" type = "text/css">
+				// type = "text/css" no longer needed in HTML5
+			</head>
+			
+			styles.css:
+				@import url("/styles/layout.css"); // import other css file into styles.css
+			
+			index.html:
+				<head>
+					<style> @import url("css/styles.css") </style>;
+				</head>
+		
+		2) Inline CSS
+			<p style = "color: red;"> Red paragraph </p>
+			- overrides all other CSS methods
+			- not reusable by other HTML tag / files
+		
+		3) Internal CSS
+			<head>
+				<style>
+					h1 {
+						color: green;
+					}
+				</style>
+			</head>
+			- more flexible than inline CSS but creates many code lines within HTML file
+			- best for short CSS applicable to single page
+
+~~ 1-5 Optimizing Image & Displays
+	- project thumbnails: ~ 600px width
+	- Background images: ~1400px to 2000px width
+	- varies from device to device & dependent on screen resolution
+	- choosing 600px img & resizing to 300px in CSS, doubles the pixel density of img
+	- adjust width, height auto
+		- vice versa true (adjust height, width auto)
+		- however, can custom adjust both if desired
+		
+~~ 1-6 Project Relative Paths ~~
+	- used for files within same project
+	- project directory is used as root reference
+	
+~~ 1-7 Absolute Paths ~~
+	- typically used to link to web resources hosted on another server
+	eg. http://website.com/posts/page.html
+	
+	Bandwidth:
+		- Amount of data transferred from server to user's computer upon request
+	
+	Hot Linking:
+		- linking to other's web resource for own page purpose
+		- eats into their bandwidth
+		- eg: Other ppl using your wifi without permission
+		- Unless website hosts web resources for people to use
+			- eg. picsum.photos
+		- If want more permanent photo, use own custom made photo
+		- upload own image to server and link to resource on server 
+		
+	- absolute path for own project:
+		- http://localhost:8000/css/styles.css (root relative path)
+		
+~~ 2 Core CSS Concepts ~~
+
+~~ 2-2 CSS Syntax & terminology ~~
+
+	- Selectors: Determine which HTML elements to apply style to
+	- Declaration Block: {}
+	- Declaration = property: value; pair
+		eg. 
+		img { // Selector & Declaration block
+			width: 300px; // Declaration
+		}
+		
+	-- Longhand Declaration -- (varies with different properties)
+	* padding-top: 10px;
+	* padding-right: 5px;
+	
+	-- Shorthand Declaration --
+	* padding: 10px 5px;
+	
+	-- CSS Comments --
+	/* This is CSS Comment */
+		- notes for self / others
+		- for debugging (comment out code for testing)
+		
+	
+~~ 2-3 CSS values & units ~~
+	- Each CSS property have it own sets of values
+		- Values may differ in types (numeric / units / keywords)
+		- Values are specific to property & not interchangeable
+		- Some properties may share the same value 
+		
+		Numeric Values:
+			- width: 80%; (percentages)
+			- height: 10em; (em)
+			- border-width: 5px; (px)
+			- animation-iteration-count: 5; (whole numbers)
+			- font-size: 1.25rem; (rem)
+			- transform: rotate(360deg);
+			animation-duration: 750ms; (ms)
+			
+			<length>: specify sizing
+				- absolute: fixed, always same size
+					- px
+					- cm
+					- mm
+					- pt
+				- relative: relational, eg. relative to browser size
+					- em
+					- rem
+					- vw
+					- vh
+					
+		Unitless values:
+			- if value 0, can just declare as 0
+				eg. margin: 0 2px; // actl 0px
+				eg. line-height: 1.25;
+				
+		Keywords values:
+			- color: red;
+			- font-size: medium;
+			- font-weight: bold;
+		
+		Function values: (utilizing CSS functions as values)
+			- transform: rotate(90deg);
+			- width: calc(80% - 20px);
+			- background-image: url(http://img.com);
+			
+~~ 2-4 Color Property & values ~~
+	- Keyword values:
+		Basic:
+			- red
+			- green
+			- blue
+		Extended:
+			- mediumseagreen
+			- oldlace
+			- aliceblue
+			
+		https://www.colours.neilorangepeel.com 
+			- includes keywords, hexadecimal & rgb() values
+		
+	- Hexadecimal values: #XXXXXX (0-9 & A-F)
+		- letters are case sensitive
+		- #000000 : Black 
+		- #ffffff : White 
+		- #808080 : Grey 
+		
+	- rgb() values:
+		- rgb(0, 0, 0) : Black === rgb(0%, 0%, 0%)
+		- rgb(255, 255, 255): White === rgb(100%, 100%, 100%)
+	
+	- rgba() values: a: alpha = opacity
+		- rgba(0, 0, 0, 0): Black, no opacity
+		- rgba(0, 0, 0, 0.5): Black, 50% opacity
+		- rgba(0, 0, 0, 1): Black, 100% opacity
+	
+	- hsl() & hsla() values:
+		- hue: Angle within color wheel relative to red. 
+			- (red = 0/360deg)
+			- (green = 120deg)
+			- (blue = 240deg)
+		- saturation: 100% = full saturation. 0% = shade of gray
+		- lightness: 100% = white, 0% = black, 50% = normal
+		
+		-hsla(270, 60%, 70%, 0.7)
+		
+		https://css-tricks.com/examples/HSLaExplorer/
+		
+		
+		https://randoma11y.com/#/
+			- good for creating high contrast content for color blindness
+		
+		https://coolors.co
+			- To generate color palette
+		
+~~ 2-5 CSS Selectors ~~
+	- selecting element to apply style to
+	
+	1) Type Selectors / Element Selectors (same thing)
+		- most basic selectors
+		- utilize html element names
+
+		- applies to all h1 in the HTML page
+		eg.
+			h1 {
+				background-color: red;
+			}
+	
+	2) Universal Selector
+		- applies to all elements of any type
+		
+		* {
+			border: 1px solid black;
+		}
+		
+		
+	-- 2-6 Class & ID Selector --
+	
+	Class Concept:
+		- Reusable on different elements
+		- Multiple classes possible
+		
+		<p class = "fancy intro"></p>
+		<h1 class = "fancy"></h1>
+		
+		.fancy {
+			color: red;
+		}
+		
+		.intro {
+			font-size: 5px;
+		}
+		
+		.fancy.intro { /* Applies only when BOTH fancy & intro are present */
+			background-color: cyan;
+		}
+	
+	ID Concept:
+		- can only be used once per page
+		- can be used for in-page linking
+		- recommended to separate ID for CSS and for in-page linking
+		- some practice is to not use ID for CSS and only for in-page linking
+		
+		<section id = "container"></section>
+		
+		#container {
+			text-align: center;
+		}
+		
+		Page Linking:
+		
+		<a href = "#example">Find out more here</a>
+		
+		<section id = "example"> More Information here </section>
+
+	-- 2-8 Descendant Selectors --
+		- for selecting elements nested within each other
+		- more selectors = more specific pattern
+		- can skip levels (Grandparent -> child, skipping parent)
+		
+		eg.
+		
+		<section> 
+			<p> Hello </p>
+		</section>
+
+		section p {
+			color: red;
+		}
+		
+		<section> 
+			<p>
+				<a href = "#">Link</a>
+			</p>
+		</section>
+		
+		section p a {
+			color: blue;
+		}
+		
+		eg (skipping parent):
+		
+		<section class = "container">
+			<p>
+				<span>
+					My Span 
+				<span>
+			</p>
+		</section>
+		
+		.container span { /* Skipped p */
+			background-color: red;
+		}
+		
+	-- 2-9 Grouping Selectors --
+		- reduce the number of repetitive declaration
+	
+	h1, h2, .class1, #id2 {
+		color: red;
+	}
+	
+	section h1, h2 { /* section h1 {} & h2 {} */
+		color: blue;
+	}
+	
+	section h1, section h2 { /* section h1 {} & section h2 {}
+		color: blue;
+	}
+	
+	p.intro { /* applies to <p class = "intro"> only
+		color: green;
+	}
+	
+	-- 2-10 Selector Inheritance & Specificity --
+	
+	Inheritance:
+		- if use body selector, any child tags within <body> will inherit properties
+		- however, if child tags have own selector, it will take precedence
+	body { 
+		color: blue;
+	}
+	
+	Specificity:
+		- which CSS rule takes precedence
+		- hierarchy based on selector type
+		- more specific takes precedence
+		
+		1. universal (most general, least precedence)
+		2. type
+		3. class
+		4. id (most specific, most precedence)
+		
+		https://specificity.keegan.st/ (specificity calculator)
+		A: ID selector (100 points)
+		B: Class, attribute, pseudo-class selectors (10 points)
+		C: Elements, pseudo-elements selectors (1 points)
+		
+~~ 2-11 Cascade & Importance ~~
+
+	- Stylesheet processed from top to bottom
+	- if 2 similar selectors, the latest will take precedence
+		- eg:
+		h1 {
+			color:red;
+		}
+		
+		h1 {
+			color:blue;
+		}
+	- if 2 similar declaration, latest will take precedence
+		- eg:
+		h1 {
+			font-size: 12px;
+			font-size: 16px;
+		}
+		
+	- styles with higher specificity will take precedence, regardless of order
+	
+	!important keyword: overrides source order & specificity
+	
+	p {
+		font-size: 12px!important;
+	}
+	
+	p.class {
+		font-size: 14px!important; /* this takes precedence */
+	}
