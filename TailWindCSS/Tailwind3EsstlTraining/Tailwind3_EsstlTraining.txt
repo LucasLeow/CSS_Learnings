@@ -1,0 +1,86 @@
+-- Tailwind Intro --
+	- utility first approach
+	- classes in html describes utility instead of elements
+		- utility defines the style directly
+	- makes Tailwind good to work with react, vue, angular or svelte
+	
+	
+-- 2 Setting up Tailwind --
+
+-- 2-1 Working with Tailwind CSS --
+	- Needs to analyze HTML & JS files then generate CSS based on what it finds
+	- unlike bootstrap that refers to script tag, tailwind need build process
+	
+	Build options:
+		1) CLI
+			- automatically look at HTML / JS files then create CSS file 
+			- not much infrastructure for development
+			
+		2) With frameworks (react / next / svelte etc.)
+			- refer to docs for more instructions
+			
+		3) CDN
+			- runs JS code to analyze html every times page load
+			- not ideal for production
+			
+	Recommended plug-ins in VSCode
+		1) Intellisense (To autocomplete Tailwind utility classes)
+		2) Tailwind Docs (docs for all tailwind utilities)
+		3) CodeSwing (Easy to create examples)
+		
+		
+	What the build tool does:
+		1) Looks at HTML & JS files to see if any tailwind CSS code within
+		2) Generate vanilla CSS file corresponding to Tailwind CSS code specified
+		3) Provides Live Development preview (alternate live preview server)
+		4) Build Process
+		
+	* Many ways to install & utilize Tailwind CSS
+	(https://tailwindcss.com/docs/installation)
+		
+		
+		
+-- 2-2 Setting up Tailwind with Vite --
+
+	1) npm init vite tailwind-proj
+		- choose framework to work with
+		
+	2) cd to proj folder
+		- npm install -D tailwindcss postcss autoprefixer
+		
+			- tailwind run as postcss plugin, therefore need postcss
+			- autoprefixer: adds any prefixes to make tailwind compatible with older browsers
+			
+	3) Setup config files
+		- tailwind.config.js 
+		- postcss.config.js
+		
+		npx tailwindcss init -p
+			- installs the above config files
+			
+	4) go to style.css & replace all content with:
+		@tailwind base;
+		@tailwind components;
+		@tailwind utilities;
+		
+		// import all tailwind components into project
+		
+	5) go to tailwind.config.js
+		content:['./src/index.html', './src/**/*.{vue,js,ts,jsx,tsx}']
+			- ask tailwind to look into the following files
+			- src/anyfolders/anyfiles with the specified extension
+			
+	6) Create vite.config.js
+		export default {
+			root: 'src', // root directory of index.html
+			publicDir: 'public', // files that will directly push to server 
+			outDir: '../docs', // output directory 
+			server: { // server command for live preview server, open window when server run
+				open: true,
+			}
+		}
+		
+	7) go to index.html, remove the <div class="app"> 
+		- not needed in tailwind project
+		
+	8) create div.max-w-4xl px-5 mx-auto in index.html
