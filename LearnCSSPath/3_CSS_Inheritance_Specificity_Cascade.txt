@@ -1,0 +1,213 @@
+-- 1 Understanding Inheritance --
+
+-- 1-1 What is inheritance --
+	- All selectors have option to inherit properties from ancestors
+	- some properties can be inherited, some cannot
+		eg:
+			- properties relating to text typically inherited
+				- font-family
+				- font-size
+				- font-style
+				- font-weight
+				- text-transform
+				- line-height
+				- visibility
+				
+			- properties relating to box model not inherited
+				- padding
+				- margin
+				- border
+				- display
+				- position
+				- float
+				- background
+				
+			
+	Convention:
+		- css properties declared at top are inherited
+		- css properties declared at btm are usually not inherited
+		
+		eg:
+		
+		
+		# Global declaration:
+		
+			body {
+				font-family: Arial, sans-serif;
+				line-height: 1.5;
+				color: #333;
+			}
+			
+		# Local declaration:
+		
+			h1, h2, h3, h4 {
+				font-family: Times, serif;
+			}
+
+-- 1-2 Example of inheritance --
+
+	- CSS properties closer to the text will be applied
+		eg:
+		
+		<div>
+			<p>	</p>
+			<p>	
+				<em> </em>
+			</p>
+		</div>
+		
+		
+		em {
+			... (closest to the em child tag, style will apply to content within em)
+		}
+		
+		p {
+			... (styling within p will still apply, even if it comes before div)
+		}
+		
+		div {
+			... (most general, styling anything not specified within div)
+		}
+		
+		
+-- 1-3 Controlling Inheritance for properties --
+	- using the "inherit" keyword
+	- will only work if direct parent has the property
+	
+	div {
+		border: 4px solid blue;
+		(border-width, border-style, border-color)
+	}
+	
+	p {
+		border: inherit;
+		border-style: dotted;
+	}
+		
+-- 1-4 initial, unset, revert, all --
+
+	all : select all properties
+	unset : 
+		- inheritable properties uses inherited values
+		- uninheritable properties uses initial values
+		
+	revert:
+		- revert properties to default (typically specified by browser)
+
+	initial:
+		- default value as listed in specifications
+		- browsers have values specified for certain elements
+			- initial will override all these specified by browser
+
+	eg.
+	
+	a:hover{
+		all: inherit; // inherit all properties from before, use with care
+	}
+	
+	a:hover{
+		all: unset;
+		color: unset;
+	}
+	
+	a:hover{
+		all: revert;
+	}
+	
+	a:hover{
+		all: initial;
+	}
+
+
+-- 1-5 Difference between * and body {} selectors
+
+	- * (not recommended) (may cause undesired behaviour in other elements added to HTML)
+		- add style to every element in HTML
+		- if specify border, all elements will have border, included those nested in body tag
+		
+
+
+-- 2 Understanding specificity --
+
+-- 2-1 What is specificity --
+	- Weight applied to CSS declaration, determined by number of selectors 
+
+	- ID > Class > Type selector
+	
+	- Specificity is not the only consideration for cascade
+	- Also has:
+		- inheritance
+		- external / internal / in line
+		- !important is used
+		
+	Group X: ID (100)
+	Group Y: Class, Pseudoclass, Attribute selectors (10)
+	Group Z: Type, Pseudoelements (1)
+	
+-- 2-2 Selectors with no specificity --
+	- 0 0 0 (easiest to override)
+	- * {
+		font-family: Arial
+	}
+	
+	- :not() Not counted but selector within () counted
+	- :not(.dead) : 1 class : 0 1 0
+	
+	
+	- where(#id1, p) : No specificity ( 0 )
+	- is(#id1, p) : Takes strongest specificity within parenthesis (1 0 0 )
+	
+-- 2-3 Impact of inheritance on specificity --
+	eg:
+	
+	<div id="div-id-1" class="div-class">
+		<p>
+			<em> </em>
+		</p>
+	</div>
+	
+	div#div-id-1.div-class { // will not affect em, due to inheritance
+		color:black;
+	}
+	
+	div#div-id-1.div-class em {
+		color: blue; // this will affect em because its more specific (in terms of inheritance)
+	}
+	
+	em {
+		color:blue;
+	}
+	
+
+-- 3 Understanding the Cascade --
+
+-- 3-1 What is Cascade --
+	- algorithm that defines how to combine properties from different source origins
+	
+	
+	3 possible origin of stylesheets:
+		1) User Agent Stylesheet
+			- Browser stylesheet
+			- different browser have different defaults
+			
+		2) Author Stylesheet
+			- written by developer in .css file
+		
+		3) User Stylesheet
+			- consumer of webpage apply their own stylesheet
+			- typically for user with disability
+				- low vision user want to change contrast
+				
+	2 different type of importance
+		- normal
+		- !important
+		
+		* Inheritance unaffected by !important
+		- when using !important, may have to use it at other areas to get desired effect
+		
+
+-- 3-5 components to export --
+	 - using layers
+	 - possible to group styles together
+	 - different UI coded by different dev can be grouped together as component
+	 - components can be integrated to produce final product
