@@ -33,12 +33,12 @@ How Tailwind works?
 		
 	4) Create "src" & "public" folder
 		src folder: where source files will be located
-			- index.html
 			- styles.css
-			- script.js etc.
-			
+
+	
 		public folder: where final files will be located	
-			- compiled tailwind css
+			- compiled tailwind styles.css
+			- index.html
 			- front end JS
 			- images etc.
 			
