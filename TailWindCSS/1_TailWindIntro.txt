@@ -1,0 +1,61 @@
+What is Tailwind
+	- CSS Framework made up of utility classes
+	- lower level than bootstrap
+	- quickly make nice looking webpages
+	- more flexibility in designing custom looks compared to bootstrap
+	
+
+Installing Tailwind
+	1) Through npm
+	
+	
+		1) Create project directory
+		2) npm init -y
+		3) npm install tailwindcss
+		
+
+How Tailwind works?
+
+	1) source file written (styles.css)
+		- import all tailwind core styles & functionalities
+		- can also write own custom css (if want to)
+			- including tailwind syntax & features
+			
+	2) Use tailwind to process source file
+		- converts it to vanilla css public file 
+		- (because tailwind syntax is different from pure vanilla css)
+		
+	3) Link index.html to public vanilla css file
+	
+	
+	* Tailwind utility class typically written in html file
+		- source css file rarely edited
+		
+	4) Create "src" & "public" folder
+		src folder: where source files will be located
+			- index.html
+			- styles.css
+			- script.js etc.
+			
+		public folder: where final files will be located	
+			- compiled tailwind css
+			- front end JS
+			- images etc.
+			
+			* Public folder eventually deployed to webhost on internet
+	
+	5) create styles.css in src dir
+		@tailwind base;
+		@tailwind components;
+		@tailwind utilities;
+		
+	6) Go to package.json for "scripts" & add:
+		"build-css": "tailwindcss build src/styles.css -o public/styles.css"
+		
+	7) "npm run build-css" to execute script in terminal
+		- outputs file styles.css with all utility classes within
+		- can be used in html files for styling
+		
+		
+-- Tutorial 2 HTML Templates --
+
