@@ -4,6 +4,24 @@ What is Tailwind
 	- quickly make nice looking webpages
 	- more flexibility in designing custom looks compared to bootstrap
 	
+	
+How Tailwind works?
+
+1) source file written (styles.css)
+	- import all tailwind core styles & functionalities
+	- can also write own custom css (if want to)
+		- including tailwind syntax & features
+		
+2) Use tailwind to process source file
+	- converts it to vanilla css public file 
+	- (because tailwind syntax is different from pure vanilla css)
+	
+3) Link index.html to public vanilla css file
+
+
+* Tailwind utility class typically written in html file
+	- source css file rarely edited
+
 
 Installing Tailwind
 	1) Through npm
@@ -12,24 +30,20 @@ Installing Tailwind
 		1) Create project directory
 		2) npm init -y
 		3) npm install tailwindcss
-		
-
-How Tailwind works?
-
-	1) source file written (styles.css)
-		- import all tailwind core styles & functionalities
-		- can also write own custom css (if want to)
-			- including tailwind syntax & features
+		3.1) npx tailwindcss init
 			
-	2) Use tailwind to process source file
-		- converts it to vanilla css public file 
-		- (because tailwind syntax is different from pure vanilla css)
+		Inside tailwind.config.js:
 		
-	3) Link index.html to public vanilla css file
-	
-	
-	* Tailwind utility class typically written in html file
-		- source css file rarely edited
+			module.exports = {
+			  content: [
+				'./public/**/*.{html,js}',
+			  ],
+			  theme: {
+				extend: {},
+			  },
+			  plugins: [],
+			}
+		
 		
 	4) Create "src" & "public" folder
 		src folder: where source files will be located
@@ -45,17 +59,131 @@ How Tailwind works?
 			* Public folder eventually deployed to webhost on internet
 	
 	5) create styles.css in src dir
-		@tailwind base;
-		@tailwind components;
-		@tailwind utilities;
+		@import "tailwindcss/base";
+		@import "tailwindcss/components";
+		@import "tailwindcss/utilities";
 		
 	6) Go to package.json for "scripts" & add:
 		"build-css": "tailwindcss build src/styles.css -o public/styles.css"
 		
+		
 	7) "npm run build-css" to execute script in terminal
 		- outputs file styles.css with all utility classes within
 		- can be used in html files for styling
+	
+	8) npx tailwindcss -i ./src/styles.css -o ./public/styles.css --watch
+		
+		
+		
 		
 		
 -- Tutorial 2 HTML Templates --
+	- see index.html in tailwindproj/public/index.html
+	
+	
+	
+	
+	
+	
+-- Tutorial 3 Fonts & Colors --
+	- Tailwind: Low level utility class: Style elements
+	- Low level: classes only perform 1 or 2 styling
+		- eg. change color / position / font size / padding etc.
+	- can use multiple low level class to make combination of styling
+		- therefore, more customized styling possible
+	
+	Font size classes:
+		.text-xs = .75rem;
+		.text-sm = .875rem;
+		.text-base = 1rem;
+		.text-lg = 1.125rem;
+		.text-xl to .text-6xl = 1.24rem to 4rem;
+		
+		<h2 class="text-gray-700 text-lg">
+		
+		
+		
+	Color classes: (https://tailwindcss.com/docs/customizing-colors)
+		- strength varies from 100 to 900, increment of 100
+		- each 100 defines the shade
+		- specified using hex values
+		
+		if want to change text color:
+		<body class="text-yellow-400">
+		100 : lighter shade
+		900 : darker shade
+		
+		
+		
+	Font Weight
+	< class="font-bold">
+	font-light 
+	font-semibold
+	
 
+
+-- Tutorial 4 Margin, Padding, Border --
+
+	Padding: Space between content and border
+	Margin: Space between borders of different elements
+
+	-- Padding classes -- (https://tailwindcss.com/docs/padding)
+		p-0 to p-6, increment 1
+		p-6 to p-20, increment 2 
+		- cannot guess value, if not exist, will not apply
+		
+		p : apply equally to x & y
+		py-2 : top & bottom padding using py
+		px-1 : left & right padding using px
+		
+		pt | pr | pb | pl for top, right, bottom, left respectively
+
+	-- Margin classes --
+		- same as padding, replace p with m
+		
+	-- Border classes --
+		- numbers represent border thickness
+	border-0
+	border-2
+	border-4
+	
+	border-t-2 // border only in 1 direction
+	border-r-2
+	border-b-2
+	border-l-2
+	
+	border-1 border-red-300 rounded-sm
+	
+	rounded-sm | md | lg | xl | 2xl ..full
+	
+	
+-- Tutorial 5: Tailwind Config file --
+	- dictate value of properties controlled by the classes used in html
+	- i.e maps tailwind css styles to vanilla cs property values
+	
+	
+	npx tailwind init --full (create config file with all default values)
+	
+	- not recommended to add new values to default tailwind config files
+	- should create blank config file & extend from default
+	
+	tailwind-new.config.js to write own config file
+	
+	
+	Step 1: inside original tailwind.config.js:
+	
+	
+	extend: {
+		colors: {
+		primary: "#FF6363",
+		secondary: {
+			100: "#E2E2D5",
+			200: "#888883"
+		}
+		}
+	}
+	
+	Step 2: Rebuild file using npm run build-css (build-css was defined in package.json script)
+	
+	Step 3: Can use styles in html file by specifying in the class
+	
