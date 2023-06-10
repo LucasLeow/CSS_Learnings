@@ -83,4 +83,5 @@
 	7) go to index.html, remove the <div class="app"> 
 		- not needed in tailwind project
 		
+		
 	8) create div.max-w-4xl px-5 mx-auto in index.html

@@ -186,4 +186,21 @@ Installing Tailwind
 	Step 2: Rebuild file using npm run build-css (build-css was defined in package.json script)
 	
 	Step 3: Can use styles in html file by specifying in the class
+		eg text-primary
 	
+
+
+-- Tutorial 6 Custom Fonts --
+
+	1) Go to google fonts, select desired font
+	2) Right side, find @import, copy @import url
+	3) go to src styles.css (prebuild css)
+		- paste @import font url above @tailwind imports
+	4) go to tailwind.config.js & add to "extend" key
+		      fontFamily: {
+        myFont: ['Inconsolata']
+      }
+		- myFont is custom name given
+		- text-myFont to apply
+		
+-- Tutorial 7 Using Flexbox layout --
