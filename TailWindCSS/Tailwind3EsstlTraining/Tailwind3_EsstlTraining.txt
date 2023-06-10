@@ -13,11 +13,13 @@
 	
 	Build options:
 		1) CLI
-			- automatically look at HTML / JS files then create CSS file 
-			- not much infrastructure for development
+			- automatically look at HTML / JS files then create CSS file (using --watch)
+			- not much infrastructure for deployment
+			- good for initial development
 			
 		2) With frameworks (react / next / svelte etc.)
 			- refer to docs for more instructions
+			- slightly more complicated
 			
 		3) CDN
 			- runs JS code to analyze html every times page load
@@ -41,23 +43,26 @@
 		
 		
 -- 2-2 Setting up Tailwind with Vite --
+	Vite: Build tool
 
 	1) npm init vite tailwind-proj
 		- choose framework to work with
+		(vanilla | vue | react | preact | lit | svelte)
+			- vanilla JS -> vanilla JS selected
 		
-	2) cd to proj folder
+	2) cd to tailwind-proj folder
 		- npm install -D tailwindcss postcss autoprefixer
 		
 			- tailwind run as postcss plugin, therefore need postcss
+				Postcss: tool using JS plugin to automate CSS operations
 			- autoprefixer: adds any prefixes to make tailwind compatible with older browsers
 			
-	3) Setup config files
-		- tailwind.config.js 
-		- postcss.config.js
-		
-		npx tailwindcss init -p
-			- installs the above config files
-			
+	3) create config files (npx tailwindcss init -p)
+	
+		creates:
+			- tailwind.config.js 
+			- postcss.config.js
+					
 	4) go to style.css & replace all content with:
 		@tailwind base;
 		@tailwind components;
@@ -67,21 +72,345 @@
 		
 	5) go to tailwind.config.js
 		content:['./src/index.html', './src/**/*.{vue,js,ts,jsx,tsx}']
-			- ask tailwind to look into the following files
+			- ask tailwind to look into the following file(s)
 			- src/anyfolders/anyfiles with the specified extension
 			
-	6) Create vite.config.js
+	6) create src folder (contain working files used to create build)
+		- move index.html | main.hs | styles.css into dir
+			
+	7) Create vite.config.js (due to moving of default files into different directory)
+		- need to specify where the files are located relative to root project dir 
+		
 		export default {
 			root: 'src', // root directory of index.html
 			publicDir: 'public', // files that will directly push to server 
-			outDir: '../docs', // output directory 
+			outDir: '../docs', // output directory, typically for ease of publish to github
 			server: { // server command for live preview server, open window when server run
 				open: true,
 			}
 		}
 		
-	7) go to index.html, remove the <div class="app"> 
+	8) Create "public" dir (web accessible root, whatever inside can be opened in browser)
+		
+	8) go to index.html, remove the <div class="app"> 
 		- not needed in tailwind project
 		
 		
-	8) create div.max-w-4xl px-5 mx-auto in index.html
+	9) create the following in <body> of index.html:
+	
+	  <div class="max-w-4xl px-5 mx-auto">
+	  
+        <h1 class="text-7xl font-bold text-purple-900"> Headline </h1>
+		
+        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis error, eum ducimus rem labore nostrum. Officia sint rem quia ipsum officiis praesentium sequi autem! Aliquam minima hic earum placeat illum. </p>
+		
+      </div>
+	 
+	10) go to terminal: npm run dev
+	
+
+-- 2-3 Using tailwindcss with "Tailwind Play" --
+	1) go to play.tailwindcss.com
+	
+		- 0 installation playground
+		- good way to perform simple & quick testing
+		
+
+-- 2-4 Using tailwindcss with CDN on codePen --
+
+	- Add <script src="https://cdn.tailwindcss.com"></script> to <head> section
+		- analyzes content on current page for any tailwind classes
+		- convert detected tailwind classes to css for styles to apply
+		- not recommended for production
+		- good for demo
+		
+	1) Go to codepen, open a new pen
+	2) go to settings, JS tab
+	3) paste https://cdn.tailwindcss.com at the external script section
+		- save & close
+	4) go to html & style using tailwind classes
+	
+	** THIS COURSE USES THIS TECHNIQUE FOR EASE OF TEACHING TAILWIND CONCEPTS **
+	
+	
+-- 2-5 Installing Tailwind CSS with CodeSwing VSCode Extension --
+	CodeSwing:
+		- Coding playground like CodePen
+		- Works with github better & allows local use with VSCode
+		
+		1) Create new empty directory (eg. tailswing)
+		
+		2) Go to VsCode preferences (ctrl shift p)
+			- CodeSwing: New Swing in Directory
+			- select tailswing dir
+			- Select Basic:HTML/CSS/JS template option
+			
+		3) ctrl + shift + p
+			- Codeswing: Add Library
+			- Add script
+			input https://cdn.tailwindcss.com to prompt
+			
+		4) Begin writing HTML and styling with tailwind classes, just like in codePen
+		
+	* Benefits: Can run locally in folder & version control with git
+	- useful for smaller scale projects / self projects
+	
+
+-- 3 Utility-First Features --
+
+-- 3-1 Preflight -- (Tailwind reset of default CSS)
+	- To allow start from scratch
+
+	- Tailwind CSS resets CSS styles
+		- without any tailwind styles added, it becomes super plain text
+		- all browser defaults are removed
+		
+	- reset in Tailwind CSS known as Preflight
+		- Margins removed
+		- headings unstyled
+		- All text sans-serif font
+		- links have no underline / color
+		- lists are unstyled
+			- no margins | paddings | list style
+		- images become block (typically in-line)
+		- border styles reset
+		
+	** TO DISABLE PREFLIGHT (GET BROWSER DEFAULTS) **
+		1) Go to tailwind.config.js & add
+		
+		{
+			corePlugins: {
+				preflight: false
+			}
+		}
+		
+		** If in code playground (like codePen):
+			- Go to JS section
+			tailwind.config = {
+			corePlugins: {
+				preflight: false
+				}
+			}
+			
+	- Alternatively, If don't want too plain default design:
+		- adding tailwind styles to base layer using @layer
+		- known as Tailwind start-up default styles
+	
+	Inside tailwind styles.css :
+		@tailwind base;
+		@tailwind components;
+		@tailwind utilities;
+		@layer base {
+			h1 {
+				@apply text-4xl text-orange-500 mt-1;
+			}
+			
+			h2 {
+				@apply text-xl text-indigo-500 mt-3;
+			}
+			.
+			etc.
+		}
+		
+		
+	** IF USING CDN on code playgrounds **
+		- Add at bottom of HTML 
+	
+	<style type="text/tailwindcss">
+	
+		@tailwind base;
+		@tailwind components;
+		@tailwind utilities;
+		@layer base {
+			h1 {
+				@apply text-4xl text-orange-500 mt-1;
+			}
+			
+			h2 {
+				@apply text-xl text-indigo-500 mt-3;
+			}
+			.
+			etc.
+		}
+		
+	</style>
+	
+
+-- 3-2 Utility Class Structure -- 
+
+	Benefits of Utility Class Structure:
+		- No unclear class names
+			- each class name correspond to styling option
+		- Every class has clear intent
+			- style element in certain ways
+		- No overrides in terms of specifity / cascade / inheritance
+			- each tag must have tailwind class specified
+			
+	** When creating Web content using Tailwind,
+		- open tailwind documentation and see what are the available classes to use for styling
+		- impossible to remember all class names
+		- best to reference documentation to see what is available
+
+	** Not all styles in tailwind CSS are avail in browser
+	- need to test with different browser
+	
+	** Tailwind is about trial and error, no fixed formula 
+	
+	
+	
+-- 3-3 Tailwind pitfalls to know about --
+
+	- Tailwind requires build process
+	- A lot of classes even for simple design
+	- repeated elements
+		- making buttons, all buttons same technique
+		- if change button, must change all buttons
+		- works well with component based framework like react and vue
+			- create 1 component and easily changeable
+	- impossible to memorize all utility classes
+		- even referring to documentation, may not know what exactly to look out for
+		
+		
+	Solution to repeated elements:
+		- include in @layer inside css file
+			- i.e adding default style common to all instance 
+			
+		@layer components {
+		.btn {
+			@apply
+			bg-gray-500
+			hover:bg-gray-700
+			py-2
+			px-4
+			text-sm
+			rounded-md
+			}
+		}
+		
+		
+		** Places to get Tailwind templates (some are paid)
+			- Tailwind UI
+			- Tailwind kit ("Free-er" version)
+			- Headless UI (for react and vue components)
+			- Daisy UI (Tailwind implementation using Bootstrap style)
+			
+			
+-- 3-4 Tailwind Color Classes --
+
+	(https://tailwindcss.com/docs/customizing-colors)
+	
+	- Background color (bg-<col>-<str>) (bg-yellow-400)
+	- Text color (text-<col>-<str>) (text-yellow-400)
+	
+	
+	Color Gradient: Using Background Image
+	
+	bg(-none) | (-gradient-to) (-DIR)
+	DIR: t | tr | r | br | b | bl | l | tl
+	top | topright | right | btm right | btm | btm left etc.
+	
+	eg:
+	bg-gradient-to-t from-red-600 to-blue-600 h-32 w-full
+	
+	** BREAK POINTS BETWEEN COLOR GRADIENTS **
+	
+	from-red-600 via-yellow-300 to-purple-500 bg-gradient-to-r h-32 w-full
+
+-- 3-5 Common Tailwind classes --
+	1) Font Family (set font)
+	
+	font-sans font-serif font-mono
+	
+		** CUSTOM DEFAULT FONTS TAILWIND **
+		
+			1) Go to tailwind.config.js
+			
+			theme: {
+				fontFamily: {
+					'sans' : ['Helvetica', 'Arial', 'sans-serif'],
+					'display' : ['Custom Font', 'Other Font']
+				}
+			}
+			
+	2) Font Size
+	
+		text-<size>
+		size: xs | sm | base | lg | xl | 2xl | 3xl | 4xl | 5xl | 6xl | 7xl | 8xl | 9xl
+		
+		- Different fonts require different font size to look good
+		
+	3) Box Shadow
+
+		shadow-<amt>
+		amt: none | inner | sm | md | lg | xl | 2xl
+		(very mild)
+		
+	4) Screen Readers : Show element only when screen reader mode
+		sr-only not-sr-only
+		
+-- 3-6 Special Classes in Tailwind --
+
+	1) Divide Class
+		- Put lines between items
+		
+		1.1) divide-<dir>-<amt>
+		(divide-y-2)
+		dir: x | y
+		amt: 0 | 2 | 4 | 8 | reverse
+		
+		1.2) divide-<color>-<strength/opacity> 
+		(divide-indigo-600/70)
+		
+		1.3) divide-<style>
+		style: none | solid | dashed | dotted | double
+		(divide-dashed)
+		
+		eg:
+			class="divide-dashed divide-y-2 divide-indigo-600/70"
+		
+	2) Ring Class
+		- Creating rings (rounded borders)
+		- good for buttons / focus 
+		- use for form inputs
+		
+		2.1) ring-<amt>
+		amt: 0 | 1 | 2 | 4 | 8 | inset
+		(ring-4)
+		
+		2.2) ring-<color>-<strength/opacity>
+		(ring-pink-500>
+		
+		2.3) ring-<offset>-<WDT>
+		(ring-offset-1)
+		
+-- 3-7 Responsive Design --
+	- Tailwind allow target element behaviour at certain breakpoints
+	- feature work with every utility class
+	- can also have custom sizes specified by developer
+	
+	Breakpoints:
+		sm - 640 px
+		md - 768 px
+		lg - 1024 px
+		xl - 1280 px
+		2xl - 1536 px
+		
+	eg:
+	bg-purple-500 md:bg-green-500 lg:bg-purple-500
+	
+	** Work on mobile size then expand to work on desktop design
+		- smaller design first then larger design easier
+	
+-- 3-8 Tailwind Custom Properties --
+	- Tailwind allow developer to specify own custom properties
+	
+	eg
+	xl:w-[80%] <- at xl screen size, make width 80%
+	text-[color:var(--primary)] // must declare color: to let tailwind know variable modifying color
+	text-[clamp(1em, 4vw, 4em)] // makes text smaller as viewport becomes smaller
+	
+		in CSS file:
+		
+		root {
+			--primary: red;
+		}

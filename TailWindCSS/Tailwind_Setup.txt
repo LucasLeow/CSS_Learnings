@@ -1,0 +1,45 @@
+Reference: https://tailwindcss.com/docs/installation
+
+
+4 Methods to get started with Tailwind
+
+	1) Tailwind CLI
+	2) PostCSS
+	3) With Framework ( Next.js | Vite | React )
+	4) CDN
+	
+	
+	
+-- Using Tailwind CLI --
+	1) Create project directory & 
+		- npm install -D tailwindcss
+		- npx tailwindcss init (to get tailwind.config.js)
+	
+	
+	2) Go to tailwind.config.js
+	
+		/** @type {import('tailwindcss').Config} */
+		module.exports = {
+		  content: ["./src/**/*.{html,js}"],
+		  theme: {
+			extend: {},
+		  },
+		  plugins: [],
+		}
+		
+	3) create src folder in project directory
+		- create styles.css
+			
+			@tailwind base;
+			@tailwind components;
+			@tailwind utilities;
+			
+	4) create "public dir"
+		- where index.html exist
+		- all other html files exist here
+		- style websites using tailwind
+	
+	5) create output.css (or styles.css) 
+	
+	6) run "npx tailwindcss -i ./src/input.css -o ./public/output.css --watch"
+		- while previewing browser to see changes to tailwind
