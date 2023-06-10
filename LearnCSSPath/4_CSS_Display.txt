@@ -58,3 +58,61 @@ Intro:
 		- content hidden but spacing remains
 		(relative positioning, space maintained)
 		(typically used with Javascript, maintaining the empty space)
+		
+	
+-- 2 Newer Display Values --
+
+-- 2-1 Layouts with inline flex & grid --
+	- Inline & block element does not inherit from parent element
+	- Flexbox & grid elements:
+		- Display declared on parent
+		- children receive some interesting properties
+		
+	display:flex;
+		- alters both the parent and child(s) elements
+		- Affects both the outer and inner layout
+			- outer layout becomes block
+				- outer layout is the property applied to parent
+			- inner layout becomes inline
+				- inner layout is the property passed to children
+			
+	display: inline-flex;
+		- Both outer and inner layout becomes inline
+		
+		
+-- 2-2 Flow-root and floats --
+		
+		section {
+			display: flow-root;
+		}
+		
+		img {
+			float: left;
+		}
+		
+		For words to wrap to the right of img
+		
+		flow-root : To make section background flow to cover the end of img\
+			- thus, the img and the background will be aligned
+			
+
+-- 2-3 inline-block --
+	- to display navigation bar horizontally
+	- <nav> then <ul> within nav tags to make navbar is the way to make navigation bars
+		
+		
+	li {
+		display: inline-block;
+	}
+	
+	a {
+		display: block;
+	}
+	
+	- to allow display of elements as inline
+	- but allow to apply margin to all 4 sides
+		* Because inline elements only allow margin to left and right
+	- inline-block solves the problem, making the elements inline but with block properties
+	
+	** BY SETTING <a> display to block, it makes the entire link within border clickable
+		
