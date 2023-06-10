@@ -1,0 +1,60 @@
+CSS "Display" property
+	
+Intro:
+	- Often, hiding content using display: none property
+	- Sometimes, make nav bar horizontal using:
+		display: inline-block;
+
+-- 1 Basic Display Values --
+
+
+-- 1-1 Inline Elements --
+	- By default, every html element is display: inline (before browser style apply)
+	- browser style overrides many to block values instead
+	
+	Inline properties (generic element w/o meaning : <span>)
+		- styling inline element only apply to width of its content
+		- padding overlaps any element on the same line if big enough
+		- margin applies only to left and right side, not to top & btm for inline elements
+		- only as wide as their given content, 
+		- specifying width will not affect size of inline elements
+	
+	
+	
+-- 1-2 Block Elements -- (generic element w/o meaning : <div>)
+	- The other default value 
+	- holds big block of information
+		- section | article | aside | header | footer | body
+		- paragraphs | headings | tables | lists
+		- div
+	 
+	Block properties
+		- styling block element apply to entire content its withholding, stretching to end of page
+		- width:300px -> width affects block element, altering height along the process
+		- margin affects all sides of block element, dividing equally
+			- eg: if margin: 3rem; specified, left & right will be 1.5rem each, top btm 1.5 rem each
+		- padding applies to all 4 side, but will not divide equally
+		
+		
+-- 1-3 Proper nesting of block & inline elements --
+
+	LEGAL:
+		- Block inside block
+		- inline inside block
+		- inline inside inline
+		
+	ILLEGAL:
+		- block inside inline (especially when dealing with links)
+			eg: placing paragraph inside <a> tag
+			
+
+-- 1-4 display:none vs visibility:hidden
+
+	display:none;
+		- all content including the space disappears
+		(absolute positioning, space disppears too)
+	
+	visibility:hidden;
+		- content hidden but spacing remains
+		(relative positioning, space maintained)
+		(typically used with Javascript, maintaining the empty space)
