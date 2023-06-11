@@ -1,0 +1,80 @@
+- Grid can do some things that flexbox can't
+- but slightly more complicated in application (more properties etc.)
+
+
+Step 1: To initialize grid:
+	Select parent element &
+		display: grid;
+		- nothing much will change initially
+		
+	* To space grid-items apart, recommended to use gap property
+		- margin property causes margin to the left & right as well
+		- gap is only top & bottom
+		
+		gap: 1.5rem;
+		
+		
+Step 2: Identify how many rows & cols required
+	- try to visualize end-product (how you want it to look)
+	
+	
+	still in parent selector:
+	
+		display: grid;
+		gap: 1.5rem;
+		grid-template-columns: repeat(4, 1fr); // 4 columns of each 1fr
+		
+		1fr 1fr 1fr 1fr; (divide into 4 fractions equally)
+			- fr unit only valid for grid
+		100px 100px 100px 100px; // 4 cols of each 100px (fixed, not responsive)
+		25% 25% 25% 25%; // 4 cols, each taking 25%
+		
+		
+	Explicit & implicit rows
+		- explicit rows : Specified by developer through grid-template-row
+		- implicit rows : Grid automatically pushes content to next row due to lack of space
+			- auto responsiveness
+			- can take advantage of this implicit behaviour & skip declaring explicit rows
+			
+		** RECOMMENDED TO DECLARE GRID-TEMPLATE-COLS & SKIP DECLARING ROWS
+			- LET BROWSER APPLY IMPLICIT ROWS
+			
+			
+
+Step 3: Targetting elements that take up 2 column space
+	- eg. sometimes have longer cards and some shorter cards
+	- longer cards take up 2 col space
+	
+	create class="grid-col-span-2"
+	
+	.grid-col-span-2 {
+		grid-column: span 2;
+	}
+	
+	** grid-column is shorthand for
+		- grid-column-start
+		- grid-column-end
+	
+	
+Step 4: Rearranging cards to desired location
+	- Sometimes, location of content at the wrong position
+	- Many different approaches to rearrange
+		1) give unique class name and make a utility class
+		2) use nth-child selector to target specific child grid element
+		
+		Using nth-child selector technique:
+		
+		.testimonial:last-child {
+			grid-column-start: 4; // (content start from col 4)
+			grid-row-start: 1; // content start from row 1
+			grid-row-end: 3; // content end at row 3 (to expand multiple rows to fit content)
+			
+				- grid-row: 1 / 3 // start at 1, end at 3 shorthand also possible
+					- shorthand may get overriden, best to specify clearly
+				- grid-row: span 2 // span across 2 rows, also possible
+		}
+		
+		** Any grid content in the position will be auto pushed to next avail spot
+		- all other content will be pushed as well.
+		- This is the power of grid, allowing placement of later child in earlier child spot without hardcode manual switching of order
+			- hardcode switching causes order in mobile to be different as well (undesireable)
