@@ -21,7 +21,7 @@ eg:
 
 
 	1) The child elements become flex items
-	
+
 		- flex items want to occupy the least amount of space
 			(width: max-content;)
 			
@@ -32,8 +32,6 @@ eg:
 		
 		
 		
-
-
 (Parent is main axis) (flex-direction default is "row") (Therefore, main axis is horizontal by default)
 Useful flex-parent property:
 
@@ -49,7 +47,7 @@ Useful flex-parent property:
 		
 		
 		
-(MAIN-AXIS property) 
+(MAIN-AXIS property) (parent)
 	- justify-content: center; (center flex-items inside parent)
 		(center | flex-start (default) | flex-end | space-between | space-around | space-evenly)
 		- will only work if there is leftover space
@@ -58,7 +56,7 @@ Useful flex-parent property:
 			- typically need to specify height to increase height of parent to see change
 			- height: 100vh;
 		
-(CROSS-AXIS property) (affects the flex-items content)
+(CROSS-AXIS property) (affects the flex-items content) (childs)
 	- align-items: stretch; (default) // stretch to fit end of parent for all items
 	- align-items: flex-start (content only stretch to end of content for each flex item)
 	- flex-end (opposite of flex start, content at the bottom of parent
